@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday - Base64 Decoder with Conditional Video</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background: #fce4ec;
+      color: #880e4f;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: inline-block;
+      max-width: 600px;
+      width: 100%;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 0.5em;
+    }
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 1em;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    #decoded {
+      white-space: pre-wrap;
+      margin-top: 1em;
+      font-weight: bold;
+      text-align: left;
+      background: #f3e5f5;
+      padding: 10px;
+      border-radius: 4px;
+      min-height: 3em;
+    }
+    video {
+      margin-top: 20px;
+      max-width: 100%;
+      display: none; /* ẩn lúc đầu */
+      border: 2px solid #ad1457;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 10px;
+      background: #ad1457;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #880e4f;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎉 Happy Birthday! 🎉</h1>
+    <p>Nhập chuỗi Base64 cần decode vào ô dưới, rồi bấm “Decode Base64”:</p>
+    <textarea id="inputBase64" placeholder="Dán hoặc nhập Base64 vào đây…"></textarea>
+    <br>
+    <button id="decodeBtn">Decode Base64</button>
+    <div id="decoded"></div>
+    
+    <!-- Thẻ video ẩn sẵn -->
+    <video id="myVideo" controls>
+      <source src="video.mp4" type="video/mp4">
+      Trình duyệt của bạn không hỗ trợ thẻ video.
+    </video>
+  </div>
+
+  <script>
+    const btn     = document.getElementById('decodeBtn');
+    const input   = document.getElementById('inputBase64');
+    const output  = document.getElementById('decoded');
+    const video   = document.getElementById('myVideo');
+
+    btn.addEventListener('click', () => {
+      const b64 = input.value.trim();
+      // nếu chưa nhập gì
+      if (!b64) {
+        output.textContent = 'Vui lòng nhập chuỗi Base64.';
+        video.style.display = 'none';
+        return;
+      }
+      try {
+        const decoded = atob(b64);
+        output.textContent = decoded + "\n(Continue to try)";
+        // chỉ show video khi trong decoded có chữ "birthday"
+        if ( decoded.toLowerCase().includes('birthday') ) {
+          video.style.display = 'block';
+        } else {
+          video.style.display = 'none';
+        }
+      } catch (e) {
+        output.textContent = 'Lỗi: Nội dung không phải Base64 hợp lệ.';
+        video.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
